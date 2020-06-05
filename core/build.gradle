@@ -1,0 +1,9 @@
+
+
+dependencies {
+
+}
+
+test {
+	useJUnitPlatform()
+}

@@ -1,0 +1,68 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.0.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+
+
+// 所有模块/项目的通用配置
+allprojects {
+    apply plugin: 'idea'
+
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+        mavenCentral()
+    }
+}
+
+// 子模块/项目的统一配置
+subprojects {
+    apply plugin: 'java'
+    apply plugin:  'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group = 'com.td3a.water'
+    version '1.0.0-SNAPSHOT'
+    // 指定JDK版本
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    // 指定编码格式
+    [compileJava,compileTestJava,javadoc]*.options*.encoding = 'UTF-8'
+    repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
+    }
+    ext {//依赖版本
+        springBootVersion = "2.3.0.RELEASE"
+    }
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+        annotationProcessor 'org.projectlombok:lombok:1.18.2'
+        compileOnly 'org.projectlombok:lombok:1.18.2'
+
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    configurations {
+        //移除spring boot 默认logger依赖
+//        all*.exclude module: 'spring-boot-starter-logging'
+    }
+
+    jar.enabled = true
+}
+
+
+//project(':start-app') {
+//    dependencies {
+//        implementation project(':core'), project(':feedback')
+//    }
+//}
+
+test {
+	useJUnitPlatform()
+}

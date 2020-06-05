@@ -1,0 +1,14 @@
+
+
+dependencies {
+    // 依赖common项目
+    compile project(":core")
+    compile project(":feedback")
+    // 配置该项目特有的依赖
+
+    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.20'
+}
+
+test {
+	useJUnitPlatform()
+}
